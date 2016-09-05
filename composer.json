@@ -1,0 +1,23 @@
+{
+  "name": "studiow/spot2",
+  "description": "A helper package for use with vlucas/spot2",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Willem Wollebrants",
+      "email": "willem@studiow.be"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.0",
+    "studiow/html": "^1.0",
+    "vlucas/spot2": "^2.2",
+    "ramsey/uuid": "^3.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Studiow\\Spot\\": "src"
+    }
+  }
+}
