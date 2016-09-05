@@ -11,7 +11,6 @@
   ],
   "require": {
     "php": ">=5.6.0",
-    "studiow/html": "^1.0",
     "vlucas/spot2": "^2.2",
     "ramsey/uuid": "^3.5"
   },
