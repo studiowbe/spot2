@@ -81,7 +81,7 @@ abstract class Entity extends SpotEntity
             return null;
         }
         $parsers = self::getFieldParam($field, 'parse', []);
-        array_map(function($parser) use(&$value){
+        array_map(function ($parser) use (&$value) {
 
             $value = $parser($value);
         }, $parsers);
@@ -124,6 +124,11 @@ abstract class Entity extends SpotEntity
     public static function fieldString($default = null, $length = 255, $params = [])
     {
         return array_merge($params, ['type' => 'string', 'length' => $length, 'default' => $default, 'value' => $default]);
+    }
+
+    public static function fieldText($default = null, $params = [])
+    {
+        return array_merge($params, ['type' => 'text', 'default' => $default, 'value' => $default]);
     }
 
     public static function fieldDate($now = false, $type = 'datetime', $params = [])
