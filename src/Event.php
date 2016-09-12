@@ -23,4 +23,7 @@ class Event
 
     const BEFORE_VALIDATE = 'beforeValidate';
     const AFTER_VALIDATE = 'afterValidate';
+
+    const BEFORE_DELETE = 'beforeDelete';
+    const BEFORE_DELETE_CONDITIONS = 'beforeDeleteConditions';
 }
