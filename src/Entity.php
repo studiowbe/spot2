@@ -9,6 +9,9 @@ use Spot\EventEmitter;
 
 abstract class Entity extends SpotEntity
 {
+
+    protected static $mapper = Mapper::class;
+
     public static function guid()
     {
         return (string)Uuid::uuid4();
