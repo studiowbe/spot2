@@ -5,6 +5,7 @@ namespace Studiow\Spot;
 
 use Spot\Entity as SpotEntity;
 use Ramsey\Uuid\Uuid;
+use Spot\EventEmitter;
 
 abstract class Entity extends SpotEntity
 {
@@ -168,5 +169,63 @@ abstract class Entity extends SpotEntity
     public static function fieldBoolean($default = false)
     {
         return ['type' => 'boolean', 'value' => false];
+    }
+
+
+    public static function events(EventEmitter $eventEmitter)
+    {
+        if (static::hasField('created_at')) {
+            $eventEmitter->on(Event::BEFORE_INSERT, function ($entity, $mapper) {
+                $ts = new \DateTime();
+                if (empty($entity->created_at)) {
+                    $entity->created_at = $ts;
+                    if (static::hasField('updated_at') && empty($entity->updated_at)) {
+                        $entity->updated_at = $ts;
+                    }
+                }
+            });
+        }
+
+        if (static::hasField('updated_at')) {
+            $eventEmitter->on(Event::BEFORE_SAVE, function ($entity, $mapper) {
+                $entity->updated_at = new \DateTime();
+            });
+        }
+        if (static::hasField('deleted')) {
+            $eventEmitter->on(Event::BEFORE_DELETE, function ($entity, $mapper) {
+
+
+                $entity->deleted = true;
+                $mapper->save($entity);
+                return false;
+
+            }, 9999);
+
+
+            $eventEmitter->on(Event::BEFORE_DELETE_CONDITIONS, function ($conditions, Mapper $mapper) {
+
+
+                $items = $mapper->where($conditions);
+                foreach ($items as $item) {
+                    $item->deleted = true;
+                    $mapper->save($item);
+                }
+                return false;
+
+            }, 9999);
+        }
+    }
+
+
+    public static function scopes()
+    {
+        $scopes =  parent::scopes();
+        if (static::hasField('deleted')) {
+
+            $scopes['active'] = function ($query) {
+                return $query->where(['deleted' => false]);
+            };
+        }
+        return $scopes;
     }
 }
