@@ -144,10 +144,12 @@ abstract class Entity extends SpotEntity
     {
         switch ($size) {
             case 'big':
+            case 'bigint':
                 $type = 'bigint';
                 break;
             case 'small':
-                $type = 'small';
+            case 'smallint':
+                $type = 'smallint';
                 break;
             default:
                 $type = 'integer';
